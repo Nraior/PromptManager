@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="PromptManager.Application/PromptManager.Application.csproj" />
+  <Project Path="PromptManager.Domain/PromptManager.Domain.csproj" />
+  <Project Path="PromptManager.Infrastructure/PromptManager.Infrastructure.csproj" />
+  <Project Path="PromptManager/PromptManager.Api.csproj" />
+</Solution>
