@@ -27,6 +27,7 @@ All prompts and data are processed **locally**
 
 Make sure the following are installed before running the project:
 
+- [.NET SDK 10.0](https://dotnet.microsoft.com/download)
 - [Node.js & pnpm](https://pnpm.io/installation)
 - **PostgreSQL** — running locally or via Docker on port `5432`
 - [Ollama](https://ollama.com/)
