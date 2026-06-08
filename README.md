@@ -18,9 +18,23 @@ All prompts and data are processed **locally**
 ---
 
 ## Docker
- 
-> **Work in progress.**
- 
+**WIP**
+> ⚠️ **Note:** Docker support is currently experimental and may be unstable.
+
+Available only on the `docker-version` branch:
+
+```bash
+git checkout docker-version
+docker compose up --build
+```
+
+The Docker setup composes the following services:
+
+- **Front-end** – web client
+- **Back-end** – API server
+- **Ollama** – local LLM runtime (automatically pulls the `mistral` model)
+- **PostgreSQL** – relational database
+
 ---
 
 ## 📋 Prerequisites
