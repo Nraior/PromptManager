@@ -59,18 +59,17 @@ cd backend
 Initialize secrets and set your connection string:
 
 ```bash
-dotnet user-secrets init
-dotnet user-secrets set "ConnectionStrings:PostgresConnection" \
-  "Host=localhost;Port=5432;Database=PromptManagerDb;Username=postgres;Password=YOUR_PASSWORD"
+dotnet user-secrets init --project PromptManager/PromptManager.Api.csproj
+dotnet user-secrets set "ConnectionStrings:PostgresConnection" "Host=localhost;Port=5432;Database=PromptManagerDb;Username=postgres;Password={YOUR_PASSWORD}" --project PromptManager/PromptManager.Api.csproj
 ```
 
-> Replace `YOUR_PASSWORD` with your actual local PostgreSQL password.
+> Replace `{YOUR_PASSWORD}` with your actual local PostgreSQL password.
 
 Install dependencies, apply migrations, and start the server:
 
 ```bash
 dotnet restore
-dotnet ef database update
+dotnet ef database update --project PromptManager.Infrastructure --startup-project PromptManager
 dotnet run --project PromptManager
 ```
 
@@ -90,3 +89,11 @@ Install dependencies and start the dev server:
 pnpm install
 pnpm dev
 ```
+
+## ✅ Verification & Access
+
+Once both servers are running, you can verify the application is working correctly by accessing the following local endpoints:
+
+* **Frontend UI:** [http://localhost:3000](http://localhost:3000) 
+* **Swagger API:** [http://localhost:5286/swagger](http://localhost:5286/swagger) — Explore and test the backend endpoints directly. *(Note: Verify your exact port in the backend terminal output).*
+* **Hangfire Dashboard:** [http://localhost:5286/hangfire](http://localhost:5286/hangfire) — Monitor background tasks.
