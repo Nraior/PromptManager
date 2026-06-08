@@ -1,6 +1,13 @@
 import { DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE } from "./constants";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000';
+const getApiUrl = () => {
+    if (typeof window === 'undefined') {
+        return process.env.INTERNAL_API_URL ?? 'http://backend:8080';
+    }
+    return process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:5000';
+};
+
+const API_URL = getApiUrl();
 
 export async function getModelInfo() {
     const res = await fetch(`${API_URL}/api/info/model`);
