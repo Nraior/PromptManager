@@ -62,15 +62,21 @@ export default function PromptsWindow() {
 
   useEffect(() => {
     const fetchPrompts = async () => {
-      const fetchedPrompts = await getPrompts(paginationLimit);
+      try {
+        const fetchedPrompts = await getPrompts(paginationLimit);
 
-      if (fetchedPrompts.length < paginationLimit) {
+        if (fetchedPrompts.length < paginationLimit) {
+          setShowLoadMoreButton(false);
+        } else {
+          setShowLoadMoreButton(true);
+        }
+        setPrompts([...fetchedPrompts].reverse());
+      } catch {
         setShowLoadMoreButton(false);
-      } else {
-        setShowLoadMoreButton(true);
+        console.error("Failed while fetching prompts");
+      } finally {
+        setLoading(false);
       }
-      setPrompts([...fetchedPrompts].reverse());
-      setLoading(false);
     };
 
     fetchPrompts();
@@ -89,16 +95,22 @@ export default function PromptsWindow() {
 
   const handleSubmit = async (text: string) => {
     setPromptSent(true);
-    const result = await createPrompt(text);
-    if (result?.errors) {
-      return setErrors(result.errors.Text);
-    }
-    const fetchedPrompts = await getPrompts(paginationLimit);
-    setPrompts([...fetchedPrompts].reverse());
-
-    setLoading(false);
     setErrors([]);
-    setPromptSent(false);
+    try {
+      const result = await createPrompt(text);
+      if (result?.errors) {
+        return setErrors(result.errors.Text);
+      }
+      const fetchedPrompts = await getPrompts(paginationLimit);
+      setPrompts([...fetchedPrompts].reverse());
+    } catch {
+      const errorMsg = "Failed while creating prompt";
+      console.error(errorMsg);
+      setErrors([errorMsg]);
+    } finally {
+      setLoading(false);
+      setPromptSent(false);
+    }
   };
 
   return (
