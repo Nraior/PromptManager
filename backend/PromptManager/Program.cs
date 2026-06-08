@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.RateLimiting;
 using PromptManager.Application;
 using PromptManager.Infrastructure;
+using PromptManager.Infrastructure.Data;
 using System.Threading.RateLimiting;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -79,5 +81,22 @@ app.UseHangfireDashboard("/jobs");
 
 app.MapControllers();
 
+// Tworzymy tymczasowy zakres usług (Scope), aby bezpiecznie pobrać kontekst bazy
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<PromptManagerDBContext>();
+
+        context.Database.Migrate();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Migration error.");
+        throw;
+    }
+}
 
 app.Run();
