@@ -8,21 +8,18 @@ namespace PromptManager.Application
 {
     public static class DependencyInjection
     {
-        extension(IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
-            public IServiceCollection AddApplicationServices()
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            services.AddMediatR(cfg =>
             {
-                services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
 
-                services.AddMediatR(cfg =>
-                {
-                    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly());
+                cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
+            });
 
-                    cfg.AddBehavior(typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>));
-                });
-
-                return services;
-            }
+            return services;
         }
     }
 }

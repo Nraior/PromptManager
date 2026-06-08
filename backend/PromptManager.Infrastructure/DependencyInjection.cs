@@ -18,55 +18,50 @@ namespace PromptManager.Infrastructure
 {
     public static class DependencyInjection
     {
-        extension(IServiceCollection services)
+        public static IServiceCollection AddInfrastructureMethods(this IServiceCollection services, IConfiguration config)
         {
-            public IServiceCollection AddInfrastructureMethods(IConfiguration config)
-            {
-                services.AddDatabase(config);
-                services.AddAIServices(config);
-                services.AddBackgroundJobs(config);
+            services.AddDatabase(config);
+            services.AddAIServices(config);
+            services.AddBackgroundJobs(config);
 
-                return services;
-            }
-
-            private IServiceCollection AddDatabase(IConfiguration config)
-            {
-                services.AddDbContext<PromptManagerDBContext>(options =>
-                    options.UseNpgsql(config.GetConnectionString("PostgresConnection"))
-                );
-
-                services.AddScoped<IPromptManagerDbContext>(provider => provider.GetRequiredService<PromptManagerDBContext>());
-
-                return services;
-            }
-
-
-            private IServiceCollection AddAIServices(IConfiguration config)
-            {
-                services.Configure<AiSettings>(config.GetSection("AI"));
-                services.AddScoped<IChatClient>(serviceProvider => {
-                    var settings = serviceProvider.GetRequiredService<IOptions<AiSettings>>().Value;
-                    return ChatClientFactory.Create(settings);
-                });
-                services.AddScoped<IChatService, OllamaChatService>();
-
-                return services;
-            }
-
-            private IServiceCollection AddBackgroundJobs(IConfiguration config)
-            {
-                services.AddHangfire(hangfire => hangfire
-                    .UsePostgreSqlStorage(c =>
-                        c.UseNpgsqlConnection(config.GetConnectionString("PostgresConnection")))
-                );
-
-                services.AddHangfireServer();
-
-                return services;
-            }
-
-
+            return services;
         }
 
+        private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddDbContext<PromptManagerDBContext>(options =>
+                options.UseNpgsql(config.GetConnectionString("PostgresConnection"))
+            );
+
+            services.AddScoped<IPromptManagerDbContext>(provider => provider.GetRequiredService<PromptManagerDBContext>());
+
+            return services;
+        }
+
+
+        private static IServiceCollection AddAIServices(this IServiceCollection services, IConfiguration config)
+        {
+            services.Configure<AiSettings>(config.GetSection("AI"));
+            services.AddScoped<IChatClient>(serviceProvider =>
+            {
+                var settings = serviceProvider.GetRequiredService<IOptions<AiSettings>>().Value;
+                return ChatClientFactory.Create(settings);
+            });
+            services.AddScoped<IChatService, OllamaChatService>();
+
+            return services;
+        }
+
+        private static IServiceCollection AddBackgroundJobs(this IServiceCollection services, IConfiguration config)
+        {
+            services.AddHangfire(hangfire => hangfire
+                .UsePostgreSqlStorage(c =>
+                    c.UseNpgsqlConnection(config.GetConnectionString("PostgresConnection")))
+            );
+
+            services.AddHangfireServer();
+
+            return services;
+        }
     }
 }
