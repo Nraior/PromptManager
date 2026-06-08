@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "W/Jis4IWx9A=",
+  "success": true,
+  "projectFilePath": "E:\\PromptManager\\backend\\PromptManager.Domain\\PromptManager.Domain.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\NowakowskiDamian\\.nuget\\packages\\microsoft.netcore.app.ref\\9.0.16\\microsoft.netcore.app.ref.9.0.16.nupkg.sha512",
+    "C:\\Users\\NowakowskiDamian\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\9.0.16\\microsoft.windowsdesktop.app.ref.9.0.16.nupkg.sha512",
+    "C:\\Users\\NowakowskiDamian\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\9.0.16\\microsoft.aspnetcore.app.ref.9.0.16.nupkg.sha512"
+  ],
+  "logs": []
+}

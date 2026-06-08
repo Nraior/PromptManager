@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("PromptManager.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+4874c4b18abcc89f3a097171919b3b5a833ca57f")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d70bebd039b8d07d9d23aaaa68a59664ec2bedf9")]
 [assembly: System.Reflection.AssemblyProductAttribute("PromptManager.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("PromptManager.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
