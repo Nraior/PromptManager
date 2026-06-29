@@ -3,7 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { getPrompts, createPrompt } from "@/lib/api";
 import { Prompt, PromptStatus } from "@/lib/types";
-import { DEFAULT_PAGE_SIZE, POLLING_INTERVAL } from "@/lib/constants";
+import {
+  DEFAULT_PAGE_SIZE,
+  MAX_PAGE_SIZE,
+  POLLING_INTERVAL,
+} from "@/lib/constants";
 import PromptsList from "./PromptsList";
 import PromptInput from "./PromptInput";
 import PromptSkeletonList from "./PromptSkeletonList";
@@ -64,8 +68,9 @@ export default function PromptsWindow() {
     const fetchPrompts = async () => {
       try {
         const fetchedPrompts = await getPrompts(paginationLimit);
+        const reachedBackendLimit = paginationLimit >= MAX_PAGE_SIZE;
 
-        if (fetchedPrompts.length < paginationLimit) {
+        if (fetchedPrompts.length < paginationLimit || reachedBackendLimit) {
           setShowLoadMoreButton(false);
         } else {
           setShowLoadMoreButton(true);
@@ -124,7 +129,9 @@ export default function PromptsWindow() {
           bottomRef={bottomRef}
           showLoadMoreButton={showLoadMoreButton}
           updatePaginationLimit={() => {
-            updatePaginationLimit((current) => current + DEFAULT_PAGE_SIZE);
+            updatePaginationLimit((current) =>
+              Math.min(current + DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE),
+            );
           }}
         />
       </div>

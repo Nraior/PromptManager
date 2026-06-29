@@ -12,3 +12,4 @@ export const MAX_PROMPT_LENGTH = 2000;
 
 export const DEFAULT_PAGE_NUMBER = 1;
 export const DEFAULT_PAGE_SIZE = 10;
+export const MAX_PAGE_SIZE = 100;
