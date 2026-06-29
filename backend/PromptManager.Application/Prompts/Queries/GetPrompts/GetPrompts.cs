@@ -1,4 +1,4 @@
-﻿using MediatR;
+using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PromptManager.Application.Common.Interfaces;
 using PromptManager.Application.Prompts.DTOs;
@@ -7,6 +7,8 @@ namespace PromptManager.Application.Prompts.Queries.GetPrompts
 {
     public record GetPromptsQuery : IRequest<IEnumerable<PromptDto>>
     {
+        public const int MaxPageSize = 100;
+
         public int PageNumber { get; set; } = 1;
         public int PageSize { get; set; } = 10;
     }
